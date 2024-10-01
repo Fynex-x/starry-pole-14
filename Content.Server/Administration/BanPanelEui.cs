@@ -1,8 +1,16 @@
+
+using System.Collections.Immutable;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using Content.Server.Administration.Managers;
 using Content.Server.Administration.Systems;
+using Content.Server.ADT.Discord;
+using Content.Server.ADT.Discord.Bans;
+using Content.Server.ADT.Discord.Bans.PayloadGenerators;
 using Content.Server.Chat.Managers;
+using Content.Server.Database;
 using Content.Server.EUI;
 using Content.Shared.Administration;
 using Content.Shared.Database;
@@ -19,6 +27,8 @@ public sealed class BanPanelEui : BaseEui
     [Dependency] private readonly IPlayerLocator _playerLocator = default!;
     [Dependency] private readonly IChatManager _chat = default!;
     [Dependency] private readonly IAdminManager _admins = default!;
+    [Dependency] private readonly IServerDbManager _dbManager = default!;
+    [Dependency] private readonly IDiscordBanInfoSender _discordBanInfoSender = default!;
 
     private readonly ISawmill _sawmill;
 
@@ -92,9 +102,9 @@ public sealed class BanPanelEui : BaseEui
             }
 
             if (hidInt == 0)
-                hidInt = (uint) (ipAddress.AddressFamily == AddressFamily.InterNetworkV6 ? Ipv6_CIDR : Ipv4_CIDR);
+                hidInt = (uint)(ipAddress.AddressFamily == AddressFamily.InterNetworkV6 ? Ipv6_CIDR : Ipv4_CIDR);
 
-            addressRange = (ipAddress, (int) hidInt);
+            addressRange = (ipAddress, (int)hidInt);
         }
 
         var targetUid = ban.Target is not null ? PlayerId : null;
@@ -137,6 +147,20 @@ public sealed class BanPanelEui : BaseEui
             {
                 roleBanInfo.AddJob(row);
             }
+            //Start-ADT-Tweak: логи банов для диса
+            var roleBanInfo = new BanInfo
+            {
+                BanId = string.Empty,
+                Target = target!,
+                Player = Player,
+                Minutes = minutes,
+                Reason = reason,
+                Expires = DateTimeOffset.Now + TimeSpan.FromMinutes(minutes),
+                AdditionalInfo = new() { { "roles", string.Join(", ", rolesData) } }
+            };
+
+            await _discordBanInfoSender.SendBanInfoAsync<PanelBanPayloadGenerator>(roleBanInfo);
+            //End-ADT-Tweak
 
             foreach (var row in ban.BannedAntags ?? [])
             {
@@ -162,6 +186,18 @@ public sealed class BanPanelEui : BaseEui
 
             _banManager.CreateServerBan((CreateServerBanInfo)banInfo);
         }
+
+        var banInfo = new BanInfo
+        {
+            BanId = newServerBanId.ToString()!,
+            Target = target!,
+            Player = Player,
+            Minutes = minutes,
+            Reason = reason,
+            Expires = DateTimeOffset.Now + TimeSpan.FromMinutes(minutes)
+        };
+
+        await _discordBanInfoSender.SendBanInfoAsync<PanelBanPayloadGenerator>(banInfo);
 
         Close();
     }

@@ -505,6 +505,13 @@ namespace Content.Server.Database
             DbReadOpsMetric.Inc();
             return RunDbCommand(() => _db.GetBanAsync(address, userId, hwId, modernHWIds, type));
         }
+        //Start-ADT-Tweak: логи банов для диса
+        public Task<ServerBanDef?> GetLastServerBanAsync()
+        {
+            DbReadOpsMetric.Inc();
+            return RunDbCommand(() => _db.GetLastServerBanAsync());
+        }
+        //End-ADT-Tweak
 
         public Task<List<BanDef>> GetBansAsync(
             IPAddress? address,

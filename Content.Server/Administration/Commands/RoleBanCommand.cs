@@ -1,4 +1,11 @@
-﻿using Content.Server.Administration.Managers;
+
+﻿using System.Linq;
+using System.Text;
+using Content.Server.Administration.Managers;
+using Content.Server.ADT.Discord;
+using Content.Server.ADT.Discord.Bans;
+using Content.Server.ADT.Discord.Bans.PayloadGenerators;
+using Content.Server.Database;
 using Content.Shared.Administration;
 using Content.Shared.CCVar;
 using Content.Shared.Database;
@@ -96,6 +103,10 @@ public sealed class RoleBanCommand : IConsoleCommand
 
         var targetUid = located.UserId;
         var targetHWid = located.LastHWId;
+        //Start-ADT-Tweak: логи банов для диса
+        var lastRoleBan = await _dbManager.GetLastServerRoleBanAsync();
+        var newRoleBanId = lastRoleBan is not null ? lastRoleBan.Id + 1 : 1;
+        //End-ADT-Tweak
 
         var banInfo = new CreateRoleBanInfo(reason);
         if (minutes > 0)
