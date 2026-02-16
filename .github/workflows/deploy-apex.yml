@@ -1,0 +1,66 @@
+name: Deploy to ApexNodes
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Upload Files
+        uses: easingthemes/ssh-deploy@v4
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.APEX_PASSWORD }}
+          REMOTE_HOST: ${{ secrets.APEX_HOST }}
+          REMOTE_PORT: ${{ secrets.APEX_PORT }}
+          REMOTE_USER: ${{ secrets.APEX_USERNAME }}
+          TARGET: ${{ secrets.APEX_REMOTE_PATH }}
+          SOURCE: "./" 
+          EXCLUDE: "/server_config.toml|/bin/Content.Server/*"
+          ARGS: "-rlgoDzvc -i --delete"
+
+      - name: General Message
+        run: |
+          curl -X POST "https://panel.apexnodes.com/api/application/servers/${{ secrets.APEX_SERVER_ID }}/command" \
+            -H "Authorization: Bearer ${{ secrets.APEX_API_KEY }}" \
+            -H "Accept: application/json" \
+            -H "Content-Type: application/json" \
+            -d '{"command": "motd \"Сервер получил обновления из GitHub, в скором времени сервер уйдёт на перезагрузку.\""}'
+
+      - name: Wait 5 mins
+        run: sleep 300s
+
+      - name: CC Announcement
+        run: |
+          curl -X POST "https://panel.apexnodes.com/api/application/servers/${{ secrets.APEX_SERVER_ID }}/command" \
+            -H "Authorization: Bearer ${{ secrets.APEX_API_KEY }}" \
+            -H "Accept: application/json" \
+            -H "Content-Type: application/json" \
+            -d '{"command": "announce \"Станция, говорит Центральное Командование. Внимание командованию станции. Нами приняты решения о досрочном завершении смены. Вам одобрены протоколы эвакуации, премия за смену отменена. Слава НТ!\" \"Центральное командоване\" #1D8BADFF /Audio/Corvax/Announcements/centcomm.ogg"}'
+
+      - name: Wait 30 seconds
+        run: sleep 30s
+
+      - name: Call Evacuation
+        run: |
+          curl -X POST "https://panel.apexnodes.com/api/application/servers/${{ secrets.APEX_SERVER_ID }}/command" \
+            -H "Authorization: Bearer ${{ secrets.APEX_API_KEY }}" \
+            -H "Accept: application/json" \
+            -H "Content-Type: application/json" \
+            -d '{"command": "recallshuttle; callshuttle 2:00"}'
+
+      - name: Wait for pods
+        run: sleep 300s
+
+      - name: Restart Server
+        run: |
+          curl -X POST "https://panel.apexnodes.com/api/application/servers/${{ secrets.APEX_SERVER_ID }}/power" \
+            -H "Authorization: Bearer ${{ secrets.APEX_API_KEY }}" \
+            -H "Accept: application/json" \
+            -H "Content-Type: application/json" \
+            -d '{"signal": "restart"}'

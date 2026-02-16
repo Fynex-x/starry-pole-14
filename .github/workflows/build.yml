@@ -1,0 +1,35 @@
+name: Build SS14
+
+on:
+  push:
+    branches: [ "master", "dev" ]
+  pull_request:
+    branches: [ "master", "dev" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Build Project
+      run: |
+        dotnet publish -c Release -o build_output --self-contained false -p:EnableSourceLink=false
+    
+    # Пакуем результат в zip для деплоя
+    - name: Zip Build
+      run: |
+        cd build_output
+        zip -r ../Server.Build.zip .
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Server.Build
+        path: Server.Build.zip

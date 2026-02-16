@@ -1,0 +1,7 @@
+author: Fynex-x
+changes:
+- {message: 'Add script to auto-generate changelog entries
+
+
+    This script generates a changelog entry in YAML format, capturing the latest commit
+    message and author information.', type: Tweak}
