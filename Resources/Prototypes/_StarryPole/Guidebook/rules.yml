@@ -1,0 +1,160 @@
+# Default rules
+- type: guideEntry
+  id: StarryPoleRuleset
+  name: Правила сервера
+  priority: 0
+  ruleEntry: true
+  text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules.xml"
+  children:
+  - StarryPoleRule0
+  - StarryPoleRule1
+  - StarryPoleRule2
+  - StarryPoleRule3
+  - StarryPoleRule31
+  - StarryPoleRule32
+  - StarryPoleRule33
+  - StarryPoleRule34
+  - StarryPoleRule35
+  - StarryPoleRule36
+  - StarryPoleRule37
+  - StarryPoleRule4
+  - StarryPoleRule41
+  - StarryPoleRule5
+  - StarryPoleRule6
+  - StarryPoleRule7
+  - StarryPoleRule8
+  - StarryPoleRule9
+  - StarryPolePunishmentTypes
+
+- type: guideEntry
+  id: StarryPoleRule0
+  name: Правило 0
+  priority: 1
+  ruleEntry: true
+  text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule0.xml"
+
+- type: guideEntry
+  id: StarryPoleRule1
+  name: Правило 1
+  priority: 2
+  ruleEntry: true
+  text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule1.xml"
+
+- type: guideEntry
+  id: StarryPoleRule2
+  name: Правило 2
+  priority: 3
+  ruleEntry: true
+  text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule2.xml"
+
+- type: guideEntry
+  id: StarryPoleRule3
+  name: Правило 3
+  priority: 4
+  ruleEntry: true
+  text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule3.xml"
+
+- type: guideEntry
+  id: StarryPoleRule31
+  name: Правило 3.1
+  priority: 5
+  ruleEntry: true
+  text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule3.1.xml"
+
+- type: guideEntry
+  id: StarryPoleRule32
+  name: Правило 3.2
+  priority: 6
+  ruleEntry: true
+  text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule3.2.xml"
+
+- type: guideEntry
+  id: StarryPoleRule33
+  name: Правило 3.3
+  priority: 7
+  ruleEntry: true
+  text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule3.3.xml"
+
+- type: guideEntry
+  id: StarryPoleRule34
+  name: Правило 3.4
+  priority: 8
+  ruleEntry: true
+  text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule3.4.xml"
+
+- type: guideEntry
+  id: StarryPoleRule35
+  name: Правило 3.5
+  priority: 9
+  ruleEntry: true
+  text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule3.5.xml"
+
+- type: guideEntry
+  id: StarryPoleRule36
+  name: Правило 3.6
+  priority: 10
+  ruleEntry: true
+  text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule3.6.xml"
+
+- type: guideEntry
+  id: StarryPoleRule37
+  name: Правило 3.7
+  priority: 11
+  ruleEntry: true
+  text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule3.7.xml"
+
+- type: guideEntry
+  id: StarryPoleRule4
+  name: Правило 4
+  priority: 12
+  ruleEntry: true
+  text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule4.xml"
+
+- type: guideEntry
+  id: StarryPoleRule41
+  name: Правило 41
+  priority: 13
+  ruleEntry: true
+  text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule41.xml"
+
+- type: guideEntry
+  id: StarryPoleRule5
+  name: Правило 5
+  priority: 14
+  ruleEntry: true
+  text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule5.xml"
+
+- type: guideEntry
+  id: StarryPoleRule6
+  name: Правило 6
+  priority: 15
+  ruleEntry: true
+  text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule6.xml"
+
+- type: guideEntry
+  id: StarryPoleRule7
+  name: Правило 7
+  priority: 16
+  ruleEntry: true
+  text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule7.xml"
+
+- type: guideEntry
+  id: StarryPoleRule8
+  name: Правило 8
+  priority: 17
+  ruleEntry: true
+  text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule8.xml"
+
+- type: guideEntry
+  id: StarryPoleRule9
+  name: Правило 9
+  priority: 18
+  ruleEntry: true
+  text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule9.xml"
+
+- type: guideEntry
+  id: StarryPolePunishmentTypes
+  name: Игровые наказания
+  priority: 19
+  ruleEntry: true
+  text: "/ServerInfo/_StarryPole/ServerRules/PunishmentTypes.xml"

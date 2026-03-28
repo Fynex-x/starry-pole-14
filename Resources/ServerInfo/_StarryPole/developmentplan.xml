@@ -37,17 +37,6 @@
 
     <ColorBox>
       <Box HorizontalAlignment="Center" VerticalAlignment="Center">
-        <GuideEntityEmbed Entity="PannedIcons" Caption=""/>
-      </Box>
-    </ColorBox>
-    <ColorBox>
-      <Box HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10">
-        Создание собственной вики
-      </Box>
-    </ColorBox>
-
-    <ColorBox>
-      <Box HorizontalAlignment="Center" VerticalAlignment="Center">
         <GuideEntityEmbed Entity="PendingIcons" Caption=""/>
       </Box>
     </ColorBox>
