@@ -4,6 +4,7 @@ using Content.Shared.CCVar;
 using Robust.Client.Graphics;
 using Robust.Client.Player;
 using Robust.Client.UserInterface.Controllers;
+using Content.Client.UserInterface.Screens;
 using Robust.Shared.Configuration;
 using Robust.Shared.Map;
 using Robust.Shared.Timing;
@@ -26,6 +27,7 @@ public sealed class ViewportUIController : UIController
         _configurationManager.OnValueChanged(CCVars.ViewportMaximumWidth, _ => UpdateViewportRatio());
         _configurationManager.OnValueChanged(CCVars.ViewportWidth, _ => UpdateViewportRatio());
         _configurationManager.OnValueChanged(CCVars.ViewportVerticalFit, _ => UpdateViewportRatio());
+        _configurationManager.OnValueChanged(CCVars.ViewportStretch, _ => UpdateViewportRatio());
 
         var gameplayStateLoad = UIManager.GetUIController<GameplayStateLoadController>();
         gameplayStateLoad.OnScreenLoad += OnScreenLoad;
@@ -48,16 +50,22 @@ public sealed class ViewportUIController : UIController
         var width = _configurationManager.GetCVar(CCVars.ViewportWidth);
         var verticalfit = _configurationManager.GetCVar(CCVars.ViewportVerticalFit) && _configurationManager.GetCVar(CCVars.ViewportStretch);
 
-        if (verticalfit)
-        {
-            width = max;
-        }
-        else if (width < min || width > max)
-        {
-            width = CCVars.ViewportWidth.DefaultValue;
-        }
+        // StarryPole-Start
+        var isSeparated = UIManager.ActiveScreen is SeparatedChatGameScreen;
 
-        Viewport.Viewport.ViewportSize = (EyeManager.PixelsPerMeter * width, EyeManager.PixelsPerMeter * ViewportHeight);
+        Viewport.Is169Mode = verticalfit;
+        Viewport.Force169Fit = isSeparated;
+
+        if (!verticalfit)
+        {
+            if (width < min || width > max)
+            {
+                width = CCVars.ViewportWidth.DefaultValue;
+            }
+            Viewport.Viewport.ViewportSize = (EyeManager.PixelsPerMeter * width, EyeManager.PixelsPerMeter * ViewportHeight);
+        }
+        // StarryPole-End
+
         Viewport.UpdateCfg();
     }
 
