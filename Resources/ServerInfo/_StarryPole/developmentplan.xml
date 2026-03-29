@@ -26,6 +26,17 @@
 
     <ColorBox>
       <Box HorizontalAlignment="Center" VerticalAlignment="Center">
+        <GuideEntityEmbed Entity="DoneIcons" Caption=""/>
+      </Box>
+    </ColorBox>
+    <ColorBox>
+      <Box HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10">
+        upstream 29.03.2026
+      </Box>
+    </ColorBox>
+
+    <ColorBox>
+      <Box HorizontalAlignment="Center" VerticalAlignment="Center">
         <GuideEntityEmbed Entity="PannedIcons" Caption=""/>
       </Box>
     </ColorBox>
