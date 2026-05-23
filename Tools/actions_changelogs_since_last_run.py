@@ -40,6 +40,15 @@ def main():
         print("No discord webhook URL found, skipping discord send")
         return
 
+    github_repository = os.environ["GITHUB_REPOSITORY"]
+    github_run = os.environ["GITHUB_RUN_ID"]
+    github_token = os.environ["GITHUB_TOKEN"]
+
+    session = requests.Session()
+    session.headers["Authorization"] = f"Bearer {github_token}"
+    session.headers["Accept"] = "Accept: application/vnd.github+json"
+    session.headers["X-GitHub-Api-Version"] = "2022-11-28"
+
     if DEBUG:
         # to debug this script locally, you can use
         # a separate local file as the old changelog
@@ -47,20 +56,21 @@ def main():
     else:
         # when running this normally in a GitHub actions workflow,
         # it will get the old changelog from the GitHub API
-        last_changelog_stream = get_last_changelog()
+        last_changelog_stream = get_last_changelog(session, github_repository, github_run)
 
-    most_recent = get_most_recent_workflow(session)
+    most_recent = get_most_recent_workflow(session, github_repository, github_run)
     last_sha = most_recent['head_commit']['id']
     print(f"Last successful publish job was {most_recent['id']}: {last_sha}")
 
     # Corvax-MultiChangelog-Start
     for changelog_file in CHANGELOG_FILES:
-        last_changelog = yaml.safe_load(get_last_changelog(session, last_sha, changelog_file))
+        last_changelog = yaml.safe_load(get_last_changelog_by_sha(session, last_sha, github_repository, changelog_file))
         with open(changelog_file, "r") as f:
             cur_changelog = yaml.safe_load(f)
 
         diff = diff_changelog(last_changelog, cur_changelog)
-        send_to_discord(diff)
+        message_lines = changelog_entries_to_message_lines(diff)
+        send_message_lines(message_lines)
     # Corvax-MultiChangelog-End
 
 
@@ -97,28 +107,19 @@ def get_past_runs(sess: requests.Session, current_run: Any) -> Any:
     return resp.json()
 
 
-def get_last_changelog() -> str:
-    github_repository = os.environ["GITHUB_REPOSITORY"]
-    github_run = os.environ["GITHUB_RUN_ID"]
-    github_token = os.environ["GITHUB_TOKEN"]
-
-    session = requests.Session()
-    session.headers["Authorization"] = f"Bearer {github_token}"
-    session.headers["Accept"] = "Accept: application/vnd.github+json"
-    session.headers["X-GitHub-Api-Version"] = "2022-11-28"
-
-    most_recent = get_most_recent_workflow(session, github_repository, github_run)
+def get_last_changelog(sess: requests.Session, github_repository: str, github_run: str) -> str:
+    most_recent = get_most_recent_workflow(sess, github_repository, github_run)
     last_sha = most_recent["head_commit"]["id"]
     print(f"Last successful publish job was {most_recent['id']}: {last_sha}")
     last_changelog_stream = get_last_changelog_by_sha(
-        session, last_sha, github_repository
+        sess, last_sha, github_repository, "Resources/Changelog/Changelog.yml"
     )
 
     return last_changelog_stream
 
 
 def get_last_changelog_by_sha(
-    sess: requests.Session, sha: str, github_repository: str
+    sess: requests.Session, sha: str, github_repository: str, changelog_file: str
 ) -> str:
     """
     Use GitHub API to get the previous version of the changelog YAML (Actions builds are fetched with a shallow clone)
@@ -128,7 +129,7 @@ def get_last_changelog_by_sha(
     }
     headers = {"Accept": "application/vnd.github.raw"}
 
-    resp = sess.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/contents/{changelog_file}", headers=headers, params=params)
+    resp = sess.get(f"{GITHUB_API_URL}/repos/{github_repository}/contents/{changelog_file}", headers=headers, params=params)
     resp.raise_for_status()
     return resp.text
 
@@ -139,8 +140,8 @@ def diff_changelog(
     """
     Find all new entries not present in the previous publish.
     """
-    old_entry_ids = {e["id"] for e in old["Entries"]}
-    return (e for e in cur["Entries"] if e["id"] not in old_entry_ids)
+    old_entry_ids = {e["id"] for e in old.get("Entries", [])}
+    return (e for e in cur.get("Entries", []) if e["id"] not in old_entry_ids)
 
 
 def get_discord_body(content: str):
