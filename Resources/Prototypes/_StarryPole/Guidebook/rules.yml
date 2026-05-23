@@ -115,7 +115,7 @@
   name: Правило 41
   priority: 13
   ruleEntry: true
-  text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule41.xml"
+  text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule4.1.xml"
 
 - type: guideEntry
   id: StarryPoleRule5
