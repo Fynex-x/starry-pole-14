@@ -1,6 +1,7 @@
 - type: entity
   id: DoneIcons
   suffix: "development plan"
+  categories: [ DoNotMap ]
   components:
   - type: Sprite
     sprite: _StarryPole/developmentplan.rsi
@@ -8,6 +9,8 @@
 
 - type: entity
   id: PannedIcons
+  suffix: "development plan"
+  categories: [ DoNotMap ]
   components:
   - type: Sprite
     sprite: _StarryPole/developmentplan.rsi
@@ -15,6 +18,8 @@
 
 - type: entity
   id: PendingIcons
+  suffix: "development plan"
+  categories: [ DoNotMap ]
   components:
   - type: Sprite
     sprite: _StarryPole/developmentplan.rsi

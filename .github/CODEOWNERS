@@ -1,11 +1,11 @@
 # Last match in file takes precedence.
 
 # Ping for all PRs
-* @Morb0 @JerryImMouse @DIMMoon1
+* @Fynex-x
 
 # Maps
-/Resources/Prototypes/Maps/** @Morb0 @DIMMoon1 @kvant8
-/Resources/Maps/** @Morb0 @DIMMoon1 @kvant8
+/Resources/Prototypes/Maps/** @Fynex-x
+/Resources/Maps/** @Fynex-x
 
 # Sprites
-/Resources/Textures/** @Morb0 @DIMMoon1 @SonicHDC
+/Resources/Textures/** @Fynex-x
