@@ -1,4 +1,4 @@
 - type: guideEntry
   id: developmentplan
-  name: План по разработке Starry Pole
+  name: guidebook-developmentplan-name
   text: "/ServerInfo/_StarryPole/developmentplan.xml"

@@ -1,7 +1,7 @@
 # Default rules
 - type: guideEntry
   id: StarryPoleRuleset
-  name: server rules
+  name: guidebook-starrypole-ruleset-name
   priority: 0
   ruleEntry: true
   text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules.xml"
@@ -28,133 +28,133 @@
 
 - type: guideEntry
   id: StarryPoleRule0
-  name: rules 0
+  name: guidebook-starrypole-rule0-name
   priority: 1
   ruleEntry: true
   text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule0.xml"
 
 - type: guideEntry
   id: StarryPoleRule1
-  name: rules 1
+  name: guidebook-starrypole-rule1-name
   priority: 2
   ruleEntry: true
   text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule1.xml"
 
 - type: guideEntry
   id: StarryPoleRule2
-  name: rules 2
+  name: guidebook-starrypole-rule2-name
   priority: 3
   ruleEntry: true
   text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule2.xml"
 
 - type: guideEntry
   id: StarryPoleRule3
-  name: rules 3
+  name: guidebook-starrypole-rule3-name
   priority: 4
   ruleEntry: true
   text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule3.xml"
 
 - type: guideEntry
   id: StarryPoleRule31
-  name: rules 3.1
+  name: guidebook-starrypole-rule31-name
   priority: 5
   ruleEntry: true
   text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule3.1.xml"
 
 - type: guideEntry
   id: StarryPoleRule32
-  name: rules 3.2
+  name: guidebook-starrypole-rule32-name
   priority: 6
   ruleEntry: true
   text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule3.2.xml"
 
 - type: guideEntry
   id: StarryPoleRule33
-  name: rules 3.3
+  name: guidebook-starrypole-rule33-name
   priority: 7
   ruleEntry: true
   text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule3.3.xml"
 
 - type: guideEntry
   id: StarryPoleRule34
-  name: rules 3.4
+  name: guidebook-starrypole-rule34-name
   priority: 8
   ruleEntry: true
   text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule3.4.xml"
 
 - type: guideEntry
   id: StarryPoleRule35
-  name: rules 3.5
+  name: guidebook-starrypole-rule35-name
   priority: 9
   ruleEntry: true
   text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule3.5.xml"
 
 - type: guideEntry
   id: StarryPoleRule36
-  name: rules 3.6
+  name: guidebook-starrypole-rule36-name
   priority: 10
   ruleEntry: true
   text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule3.6.xml"
 
 - type: guideEntry
   id: StarryPoleRule37
-  name: rules 3.7
+  name: guidebook-starrypole-rule37-name
   priority: 11
   ruleEntry: true
   text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule3.7.xml"
 
 - type: guideEntry
   id: StarryPoleRule4
-  name: rules 4
+  name: guidebook-starrypole-rule4-name
   priority: 12
   ruleEntry: true
   text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule4.xml"
 
 - type: guideEntry
   id: StarryPoleRule41
-  name: rules 4.1
+  name: guidebook-starrypole-rule41-name
   priority: 13
   ruleEntry: true
   text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule4.1.xml"
 
 - type: guideEntry
   id: StarryPoleRule5
-  name: rules 5
+  name: guidebook-starrypole-rule5-name
   priority: 14
   ruleEntry: true
   text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule5.xml"
 
 - type: guideEntry
   id: StarryPoleRule6
-  name: rules 6
+  name: guidebook-starrypole-rule6-name
   priority: 15
   ruleEntry: true
   text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule6.xml"
 
 - type: guideEntry
   id: StarryPoleRule7
-  name: rules 7
+  name: guidebook-starrypole-rule7-name
   priority: 16
   ruleEntry: true
   text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule7.xml"
 
 - type: guideEntry
   id: StarryPoleRule8
-  name: rules 8
+  name: guidebook-starrypole-rule8-name
   priority: 17
   ruleEntry: true
   text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule8.xml"
 
 - type: guideEntry
   id: StarryPoleRule9
-  name: rules 9
+  name: guidebook-starrypole-rule9-name
   priority: 18
   ruleEntry: true
   text: "/ServerInfo/_StarryPole/ServerRules/StarryPoleRules/Rule9.xml"
 
 - type: guideEntry
   id: StarryPolePunishmentTypes
-  name: rules punishment types
+  name: guidebook-starrypole-punishment-types-name
   priority: 19
   ruleEntry: true
   text: "/ServerInfo/_StarryPole/ServerRules/PunishmentTypes.xml"
