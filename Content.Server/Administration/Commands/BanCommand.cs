@@ -95,8 +95,8 @@ public sealed class BanCommand : LocalizedCommands
         var targetUid = located.UserId;
         var targetHWid = located.LastHWId;
         //Start-ADT-Tweak: логи банов для диса
-        var lastServerBan = await _dbManager.GetLastServerBanAsync();
-        var newServerBanId = lastServerBan is not null ? lastServerBan.Id + 1 : 1;
+        //var lastServerBan = await _dbManager.GetLastServerBanAsync();
+        //var newServerBanId = lastServerBan is not null ? lastServerBan.Id + 1 : 1;
         //End-ADT-Tweak
 
         var banInfo = new CreateServerBanInfo(reason);

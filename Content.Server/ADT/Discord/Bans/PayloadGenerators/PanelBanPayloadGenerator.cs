@@ -52,7 +52,9 @@ public sealed class PanelBanPayloadGenerator : BanPayloadGenerator
             ? Loc.GetString("discord-ban-submitted-by", ("name", info.Player.Name))
             : Loc.GetString("discord-ban-submitted-by-system");
 
-        var roles = Loc.GetString("discord-ban-panel-ban-data-info", ("data", info.AdditionalInfo["localizedPanelData"]));
+        info.AdditionalInfo.TryGetValue("localizedPanelData", out var localizedPanelData);
+        localizedPanelData ??= string.Empty;
+        var roles = Loc.GetString("discord-ban-panel-ban-data-info", ("data", localizedPanelData));
         var banIdInfo = Loc.GetString("discord-ban-panel-ban-server-ban", ("banId", info.BanId));
 
         builder.AppendLine(header);
@@ -67,7 +69,7 @@ public sealed class PanelBanPayloadGenerator : BanPayloadGenerator
 
         builder.AppendLine(player);
 
-        if (!string.IsNullOrEmpty(info.AdditionalInfo["localizedPanelData"]))
+        if (!string.IsNullOrEmpty(localizedPanelData))
         {
             builder.AppendLine(roles);
         }

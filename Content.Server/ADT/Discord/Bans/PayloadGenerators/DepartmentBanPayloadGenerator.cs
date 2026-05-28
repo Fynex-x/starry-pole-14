@@ -44,7 +44,10 @@ public sealed class DepartmentBanPayloadGenerator : BanPayloadGenerator
             )
             : Loc.GetString("discord-ban-permanent");
 
-        var department = Loc.GetString("discord-ban-department-ban-department", ("department", info.AdditionalInfo["localizedDepartment"]));
+        info.AdditionalInfo.TryGetValue("localizedDepartment", out var localizedDepartment);
+        var department = Loc.GetString(
+            "discord-ban-department-ban-department",
+            ("department", localizedDepartment ?? string.Empty));
 
         var expires = info.Minutes != 0
             ? Loc.GetString("discord-ban-unban-date", ("expires", info.Expires.ToString()!))

@@ -44,7 +44,8 @@ public sealed class RoleBanPayloadGenerator : BanPayloadGenerator
             )
             : Loc.GetString("discord-ban-permanent");
 
-        var role = Loc.GetString("discord-ban-role-ban-role", ("role", info.AdditionalInfo["localizedRole"]));
+        info.AdditionalInfo.TryGetValue("localizedRole", out var localizedRole);
+        var role = Loc.GetString("discord-ban-role-ban-role", ("role", localizedRole ?? string.Empty));
 
         var expires = info.Minutes != 0
             ? Loc.GetString("discord-ban-unban-date", ("expires", info.Expires.ToString()!))

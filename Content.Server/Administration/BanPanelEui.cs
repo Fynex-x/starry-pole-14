@@ -16,6 +16,7 @@ using Content.Shared.Administration;
 using Content.Shared.Database;
 using Content.Shared.Eui;
 using Robust.Shared.Network;
+using SharedBan = Content.Shared.Administration.Ban;
 
 namespace Content.Server.Administration;
 
@@ -67,7 +68,7 @@ public sealed class BanPanelEui : BaseEui
         }
     }
 
-    private async void BanPlayer(Ban ban)
+    private async void BanPlayer(SharedBan ban)
     {
         if (!_admins.HasAdminFlag(Player, AdminFlags.Ban))
         {
@@ -187,17 +188,17 @@ public sealed class BanPanelEui : BaseEui
             _banManager.CreateServerBan((CreateServerBanInfo)banInfo);
         }
 
-        var banInfo = new BanInfo
+        var discordBanInfo = new BanInfo
         {
-            BanId = newServerBanId.ToString()!,
-            Target = target!,
+            BanId = string.Empty,
++           Target = ban.Target ?? PlayerName,
             Player = Player,
-            Minutes = minutes,
-            Reason = reason,
-            Expires = DateTimeOffset.Now + TimeSpan.FromMinutes(minutes)
+            Minutes = ban.BanDurationMinutes,
++           Reason = ban.Reason,
++           Expires = DateTimeOffset.UtcNow + TimeSpan.FromMinutes(ban.BanDurationMinutes)
         };
 
-        await _discordBanInfoSender.SendBanInfoAsync<PanelBanPayloadGenerator>(banInfo);
+        await _discordBanInfoSender.SendBanInfoAsync<PanelBanPayloadGenerator>(discordBanInfo);
 
         Close();
     }

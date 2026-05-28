@@ -16,6 +16,7 @@ public sealed class DiscordBanInfoSender : IDiscordBanInfoSender
     [Dependency] private readonly IConfigurationManager _cfg = default!;
     [Dependency] private readonly IPrototypeManager _protoManager = default!;
     [Dependency] private readonly DiscordWebhook _discord = default!;
+    [Dependency] private readonly ILogger _logger = default!;
 
     public async Task SendBanInfoAsync<TGenerator>(BanInfo info)
         where TGenerator : IDiscordBanPayloadGenerator, new()
@@ -35,7 +36,14 @@ public sealed class DiscordBanInfoSender : IDiscordBanInfoSender
 
         var payload = new TGenerator().Generate(info);
 
-        await _discord.CreateMessage(identifier, payload);
+        try
+        {
+            await _discord.CreateMessage(identifier, payload);
+            }
+        catch (Exception ex)
+        {
+           _logger.Error(ex, "Failed to send ban info to Discord webhook");
+        }
     }
 
     private void AddAdditionalInfo(BanInfo info)
@@ -46,10 +54,10 @@ public sealed class DiscordBanInfoSender : IDiscordBanInfoSender
         info.AdditionalInfo["round"] = gameTicker.RunLevel switch
         {
             GameRunLevel.PreRoundLobby => gameTicker.RoundId == 0
-                ? "pre-round lobby after server restart"
-                : $"pre-round lobby for round {gameTicker.RoundId + 1}",
-            GameRunLevel.InRound => $"round {gameTicker.RoundId}",
-            GameRunLevel.PostRound => $"post-round {gameTicker.RoundId}",
+                ? Loc.GetString("discord-ban-round-preround-restart")
+                : Loc.GetString("discord-ban-round-preround", ("round", gameTicker.RoundId + 1)),
+            GameRunLevel.InRound => Loc.GetString("discord-ban-round-inround", ("round", gameTicker.RoundId)),
+            GameRunLevel.PostRound => Loc.GetString("discord-ban-round-postround", ("round", gameTicker.RoundId)),
             _ => throw new ArgumentOutOfRangeException(nameof(gameTicker.RunLevel),
                 $"{gameTicker.RunLevel} was not matched."),
         };
@@ -100,10 +108,12 @@ public sealed class DiscordBanInfoSender : IDiscordBanInfoSender
 
             var roles = info.AdditionalInfo["roles"]
                 .Split(", ")
+                .Select(x => x.Split(':'))
+                .Where(parts => parts.Length == 2)
                 .Select(x => new
                 {
-                    Role = x.Split(':')[0],
-                    BanId = x.Split(':')[1]
+                    Role = x[0],
+                    BanId = x[1]
                 });
 
             var rolesPrototypes = _protoManager.EnumeratePrototypes<JobPrototype>();
@@ -126,8 +136,9 @@ public sealed class DiscordBanInfoSender : IDiscordBanInfoSender
             .Select(roleProto => new
             {
                 Role = roleProto,
-                BanId = roles.FirstOrDefault(roleData => roleData.Role == roleProto.ID)!.BanId
-            });
+                BanId = roles.FirstOrDefault(roleData => roleData.Role == roleProto.ID)?.BanId
+            })
+            .Where(x => x.BanId != null);
 
             var localizedDepartments = applicableDepartmentPrototypes
             .Select(x => new

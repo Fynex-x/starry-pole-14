@@ -24,6 +24,7 @@ public sealed class RoleBanCommand : IConsoleCommand
     [Dependency] private readonly IConfigurationManager _cfg = default!;
     [Dependency] private readonly ILogManager _log = default!;
     [Dependency] private readonly IPrototypeManager _proto = default!;
+    [Dependency] private readonly IServerDbManager _dbManager = default!;
 
     private ISawmill? _sawmill;
 
